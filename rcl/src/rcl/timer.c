@@ -329,6 +329,16 @@ rcl_timer_get_time_until_next_call(const rcl_timer_t * timer, int64_t * time_unt
 }
 
 rcl_ret_t
+rcl_timer_get_next_call_time(const rcl_timer_t * timer, rcl_time_point_value_t * time_point_value)
+{
+  RCL_CHECK_ARGUMENT_FOR_NULL(timer, RCL_RET_INVALID_ARGUMENT);
+  RCL_CHECK_ARGUMENT_FOR_NULL(time_point_value, RCL_RET_INVALID_ARGUMENT);
+
+  *time_point_value = rcutils_atomic_load_int64_t(&timer->impl->next_call_time);
+  return RCL_RET_OK;
+}
+
+rcl_ret_t
 rcl_timer_get_time_since_last_call(
   const rcl_timer_t * timer,
   rcl_time_point_value_t * time_since_last_call)
